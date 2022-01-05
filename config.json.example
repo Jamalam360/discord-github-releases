@@ -1,6 +1,6 @@
 {
   "discord_webhook_url": "FILL_THIS_IN_YOURSELF",
-  "port": 8080,
+  "port": 8081,
   "message": {
     "content": "$author_name has just released a release of $repo_name",
     "username": "$author_name",
@@ -8,23 +8,21 @@
     "embeds": [
       {
         "title": "New release on $repo_name_full",
-        "url": "$repo_url",
-        "description": "$repo_description",
+        "url": "$release_url",
+        "description": "Yay! Release on [$repo_name_full]($repo_url) by $author_name",
         "fields": [
           {
             "name": "Name",
-            "value": "$title ($tag_name)",
-            "inline": false
+            "value": "$title ($tag_name)"
           },
           {
             "name": "Release Notes",
-            "value": "$body",
-            "inline": false
+            "value": "$body"
           }
         ],
         "author": {
           "name": "$author_name",
-          "url": "$author_url",
+          "url": "$author_profile_url",
           "icon_url": "$author_avatar_url"
         },
         "footer": {
