@@ -7,9 +7,9 @@
     "avatar_url": "$author_avatar_url",
     "embeds": [
       {
-        "title": "New release on $repo_name_full",
+        "title": "New release on $repo_full_name",
         "url": "$release_url",
-        "description": "Yay! Release on [$repo_name_full]($repo_url) by $author_name",
+        "description": "Yay! Release on [$repo_full_name]($repo_url) by $author_name",
         "fields": [
           {
             "name": "Name",
