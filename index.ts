@@ -41,11 +41,12 @@ const handler = async (req: Request): Promise<Response> => {
       ],
     };
 
-    console.log(JSON.stringify(webhookContent));
-
     const req = await fetch(config.discord_webhook_url, {
       method: "POST",
       body: JSON.stringify(webhookContent),
+      headers: {
+        "Content-type": "application/json",
+      },
     });
 
     console.log(req);
