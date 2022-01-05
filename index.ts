@@ -58,7 +58,7 @@ function fillVars(githubJson: any, str: string): string {
 const config = await readConfig();
 const app = new Application();
 
-app.use((ctx) => {
+app.use(async (ctx) => {
   const json = await ctx.request.json();
 
   if (json.action == "published") {
