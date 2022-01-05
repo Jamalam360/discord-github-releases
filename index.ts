@@ -22,9 +22,8 @@ const config = await readConfig();
 
 const handler = async (req: Request): Promise<Response> => {
   const json = await req.json();
-  console.log(json);
 
-  if (json.action === "published") {
+  if (json.action == "published") {
     const webhookContent = {
       embeds: [
         {
@@ -44,10 +43,12 @@ const handler = async (req: Request): Promise<Response> => {
       ],
     };
 
-    await fetch(config.discord_webhook_url, {
+    const req = await fetch(config.discord_webhook_url, {
       method: "POST",
       body: JSON.stringify(webhookContent),
     });
+
+    console.log(req);
   }
 
   return new Response("Success", { status: 200 });
