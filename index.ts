@@ -59,7 +59,7 @@ const config = await readConfig();
 const app = new Application();
 
 app.use((ctx) => {
-  const json = await ctx.req.json();
+  const json = await ctx.request.json();
 
   if (json.action == "published") {
     const webhookContent = config.message;
