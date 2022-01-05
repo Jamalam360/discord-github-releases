@@ -59,9 +59,9 @@ const config = await readConfig();
 const app = new Application();
 
 app.use(async (ctx) => {
-  const json = await ctx.request.json();
+  const json = await ctx.request.body().value;
 
-  if (json.action == "published") {
+  if (await json.action == "published") {
     const webhookContent = config.message;
 
     webhookContent.avatar_url = webhookContent.avatar_url
@@ -111,7 +111,7 @@ app.use(async (ctx) => {
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
     });
 
-    const req = await fetch(config.discord_webhook_url, {
+    await fetch(config.discord_webhook_url, {
       method: "POST",
       body: JSON.stringify(webhookContent),
       headers: {
