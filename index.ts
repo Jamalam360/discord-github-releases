@@ -1,5 +1,5 @@
 import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { listenAndServe } from "https://deno.land/std@0.119.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.119.0/http/server.ts";
 
 interface Config {
   discord_webhook_url: string;
@@ -52,4 +52,4 @@ const handler = async (req: Request): Promise<Response> => {
   return new Response(null, { status: 200 });
 };
 
-await listenAndServe(`:${config.port}`, handler);
+serve(handler, { port: config.port });
