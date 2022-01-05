@@ -28,11 +28,9 @@ const handler = async (req: Request): Promise<Response> => {
       embeds: [
         {
           title: `New release published`,
-          type: "rich",
           description:
             `${json.release.author.login} has published version '${json.release.tag_name}' of ${json.repository.full_name}`,
           url: json.release.html_url,
-          color: 0x00ff00,
           fields: [
             {
               name: "Release Description",
