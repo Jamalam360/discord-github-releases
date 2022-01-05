@@ -1,5 +1,5 @@
 import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { Application } from "https://deno.land/oak@v10.1.0/mod.ts";
+import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
 import { WebhookMessage } from "./discord.ts";
 
 interface Config {
