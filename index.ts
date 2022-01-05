@@ -22,6 +22,7 @@ const config = await readConfig();
 
 const handler = async (req: Request): Promise<Response> => {
   const json = await req.json();
+  console.log(json);
 
   if (json.action === "published") {
     const webhookContent = {
