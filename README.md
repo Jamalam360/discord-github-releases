@@ -171,7 +171,7 @@ The following variables are available:
   - Description: The URL to the avatar of the author of the release
 - `repo_name`
   - Description: The name of the repository (e.g. `CarShop`)
-- `repo_name_full`
+- `repo_full_name`
   - Description: The full name of the repository (e.g. `Jamalam360/CarShop`)
 - `repo_url`
   - Description: The URL of the repository, leads to the GitHub website

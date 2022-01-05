@@ -13,11 +13,11 @@
         "fields": [
           {
             "name": "Name",
-            "value": "$title ($tag_name)"
+            "value": "$release_name ($release_tag_name)"
           },
           {
             "name": "Release Notes",
-            "value": "$body"
+            "value": "$release_body"
           }
         ],
         "author": {

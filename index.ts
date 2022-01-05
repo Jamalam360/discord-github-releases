@@ -50,7 +50,7 @@ function fillVars(githubJson: any, str: string): string {
   str = str.replace("$author_profile_url", githubJson.release.author.html_url);
   str = str.replace("$author_avatar_url", githubJson.release.author.avatar_url);
   str = str.replace("$repo_name", githubJson.repository.name);
-  str = str.replace("$repo_name_full", githubJson.repository.full_name);
+  str = str.replace("$repo_full_name", githubJson.repository.full_name);
   str = str.replace("$repo_url", githubJson.repository.html_url);
   return str;
 }
