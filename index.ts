@@ -62,11 +62,8 @@ app.use(async (ctx) => {
   const json = await ctx.request.body().value;
 
   if (await json.action == "published") {
-    const webhookContent: WebhookMessage = {};
-    webhookContent.avatar_url = config.message.avatar_url;
-    webhookContent.username = config.message.username;
-    webhookContent.content = config.message.content;
-    webhookContent.embeds = config.message.embeds;
+    let webhookContent: WebhookMessage = {};
+    webhookContent = Object.assign(webhookContent, config.message);
 
     webhookContent.avatar_url = webhookContent.avatar_url
       ? fillVars(json, webhookContent.avatar_url)
