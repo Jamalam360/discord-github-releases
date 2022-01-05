@@ -121,6 +121,6 @@ app.use((ctx) => {
   }
 
   ctx.response.status = 200;
-}):
+});
 
 await app.listen({ port: config.port });
