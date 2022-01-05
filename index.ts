@@ -110,6 +110,8 @@ const handler = async (req: Request): Promise<Response> => {
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
     });
 
+    console.log(webhookContent);
+
     const req = await fetch(config.discord_webhook_url, {
       method: "POST",
       body: JSON.stringify(webhookContent),
