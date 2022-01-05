@@ -1,5 +1,5 @@
 import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { serve } from "https://deno.land/std@0.119.0/http/server.ts";
+import { Application } from "https://deno.land/oak@v10.1.0/mod.ts";
 import { WebhookMessage } from "./discord.ts";
 
 interface Config {
@@ -56,9 +56,10 @@ function fillVars(githubJson: any, str: string): string {
 }
 
 const config = await readConfig();
+const app = new Application();
 
-const handler = async (req: Request): Promise<Response> => {
-  const json = await req.json();
+app.use((ctx) => {
+  const json = await ctx.req.json();
 
   if (json.action == "published") {
     const webhookContent = config.message;
@@ -110,8 +111,6 @@ const handler = async (req: Request): Promise<Response> => {
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
     });
 
-    console.log(webhookContent);
-
     const req = await fetch(config.discord_webhook_url, {
       method: "POST",
       body: JSON.stringify(webhookContent),
@@ -121,7 +120,7 @@ const handler = async (req: Request): Promise<Response> => {
     });
   }
 
-  return new Response("Success", { status: 200 });
-};
+  ctx.response.status = 200;
+}):
 
-await serve(handler, { port: config.port });
+await app.listen({ port: config.port });
