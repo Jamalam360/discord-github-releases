@@ -119,6 +119,8 @@ app.use(async (ctx) => {
         "Content-type": "application/json",
       },
     });
+
+    console.log(config.message);
   }
 
   ctx.response.status = 200;
