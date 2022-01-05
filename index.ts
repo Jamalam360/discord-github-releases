@@ -49,7 +49,7 @@ const handler = async (req: Request): Promise<Response> => {
     });
   }
 
-  return new Response(null, { status: 200 });
+  return new Response("Success", { status: 200 });
 };
 
-serve(handler, { port: config.port });
+await serve(handler, { port: config.port });
