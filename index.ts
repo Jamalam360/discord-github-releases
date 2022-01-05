@@ -63,7 +63,8 @@ app.use(async (ctx) => {
 
   if (await json.action == "published") {
     const webhookContent = config.message;
-    const backup = config.message;
+    const backup = {};
+    Object.assign(backup, config.message);
 
     webhookContent.avatar_url = webhookContent.avatar_url
       ? fillVars(json, webhookContent.avatar_url)
