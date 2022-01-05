@@ -62,8 +62,8 @@ app.use(async (ctx) => {
   const json = await ctx.request.body().value;
 
   if (await json.action == "published") {
-    let webhookContent: WebhookMessage = {};
-    webhookContent = Object.assign(webhookContent, config.message);
+    const webhookContent = config.message;
+    const backup = config.message;
 
     webhookContent.avatar_url = webhookContent.avatar_url
       ? fillVars(json, webhookContent.avatar_url)
@@ -119,6 +119,8 @@ app.use(async (ctx) => {
         "Content-type": "application/json",
       },
     });
+
+    config.message = backup;
   }
 
   ctx.response.status = 200;
