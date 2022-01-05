@@ -119,8 +119,6 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-type": "application/json",
       },
     });
-
-    console.log(req);
   }
 
   return new Response("Success", { status: 200 });

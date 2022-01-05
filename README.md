@@ -2,7 +2,36 @@ Allows you to send custom Discord messages when a new release is published on
 GitHub. The content of the messages can be much more compelx than the default
 embeds.
 
+For example, this is the message sent using the default configuration:
+
+![example](example.png)
+
+## Using
+
+First, follow the guide below to configure the program. Then make sure it is
+running on your machine (I use my VPS so that it is always online). Make sure
+that the port you chose can be accessed by the GitHub webhook, if applicable.
+
+Next go to the GitHub repository or organistaion of choice and create a webhook
+pointing to `http://your.ip.address.here:port/` (where `your.ip.address.here` is
+the IP address of your machine and `port` is the port you chose (default 8080)).
+Make sure the webhook is 'subscribed' to the `release` event.
+
+Then make your discord webhook and add it to the config file.
+
+Then make sure the code is running using
+`deno run --allow-net --allow-read index.ts`. The program should now be working!
+You can find instructions on installig Deno [here](https://deno.land).
+
 ## Configuration
+
+This section is very text heavy, I recommend you look at `config.json.example`,
+or you can just use that example without modifying it (apart from adding the
+Discord webhook URL):
+
+```
+mv config.json.example config.json
+```
 
 You must create a file named `config.json` in the same path as you are running
 the file. The structure is like so:
