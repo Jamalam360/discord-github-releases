@@ -1,6 +1,9 @@
 import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
+import {
+  post,
+  WebhookMessage,
+} from "https://deno.land/x/dishooks@v1.0.2/mod.ts";
 import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
-import { WebhookMessage } from "./discord.ts";
 
 interface Config {
   discord_webhook_url: string;
@@ -62,7 +65,9 @@ app.use(async (ctx) => {
   const json = await ctx.request.body().value;
 
   if (await json.action == "published") {
-    const webhookContent: WebhookMessage = JSON.parse(JSON.stringify(config.message));
+    const webhookContent: WebhookMessage = JSON.parse(
+      JSON.stringify(config.message),
+    );
 
     webhookContent.avatar_url = webhookContent.avatar_url
       ? fillVars(json, webhookContent.avatar_url)
@@ -111,15 +116,9 @@ app.use(async (ctx) => {
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
     });
 
-    await fetch(config.discord_webhook_url, {
-      method: "POST",
-      body: JSON.stringify(webhookContent),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-
-    console.log(config.message);
+    const res = await post(config.discord_webhook_url, webhookContent);
+    console.log(res.status);
+    console.log(res.message);
   }
 
   ctx.response.status = 200;
