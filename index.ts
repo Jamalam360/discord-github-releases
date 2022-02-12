@@ -2,7 +2,7 @@ import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
 import {
   post,
   WebhookMessage,
-} from "https://deno.land/x/dishooks@v1.0.2/mod.ts";
+} from "https://deno.land/x/dishooks@v1.0.4/mod.ts";
 import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
 
 interface Config {
@@ -116,7 +116,13 @@ app.use(async (ctx) => {
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
     });
 
-    const res = await post(config.discord_webhook_url, webhookContent);
+    const res = await post(
+      config.discord_webhook_url,
+      webhookContent,
+      true,
+      true,
+      "[...]",
+    );
     console.log(res.status);
     console.log(res.message);
   }
