@@ -1,13 +1,59 @@
-import { exists } from "https://deno.land/std@0.119.0/fs/mod.ts";
+// deno-lint-ignore-file no-explicit-any
+
+import { exists } from "https://deno.land/std@0.125.0/fs/mod.ts";
 import {
   post,
   WebhookMessage,
 } from "https://deno.land/x/dishooks@v1.0.4/mod.ts";
 import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
 
+const vars = [
+  {
+    name: "$release_url",
+    value: (githubJson: any) => githubJson.release.html_url,
+  },
+  {
+    name: "$release_tag_name",
+    value: (githubJson: any) => githubJson.release.tag_name,
+  },
+  {
+    name: "$release_name",
+    value: (githubJson: any) => githubJson.release.name,
+  },
+  {
+    name: "$release_body",
+    value: (githubJson: any) => githubJson.release.body,
+  },
+  {
+    name: "$author_name",
+    value: (githubJson: any) => githubJson.release.author.login,
+  },
+  {
+    name: "$author_profile_url",
+    value: (githubJson: any) => githubJson.release.author.html_url,
+  },
+  {
+    name: "$author_avatar_url",
+    value: (githubJson: any) => githubJson.release.author.avatar_url,
+  },
+  {
+    name: "$repo_name",
+    value: (githubJson: any) => githubJson.repository.name,
+  },
+  {
+    name: "$repo_full_name",
+    value: (githubJson: any) => githubJson.repository.full_name,
+  },
+  {
+    name: "$repo_url",
+    value: (githubJson: any) => githubJson.repository.html_url,
+  },
+];
+
 interface Config {
   discord_webhook_url: string;
   port: number;
+  fieldOn: string;
   message: WebhookMessage;
 }
 
@@ -26,35 +72,17 @@ async function readConfig(): Promise<Config> {
       config.port = 8080;
     }
 
-    if (!config.message) {
-      throw new Error("No message provided in config.json");
-    }
-
-    if (!config.message.content && !config.message.embeds) {
-      throw new Error(
-        "At least one of content or embeds must be provided in config.json",
-      );
-    }
-
     return config;
   } else {
     throw new Error("No config.json found");
   }
 }
 
-//TODO: oh god send help
-// deno-lint-ignore no-explicit-any
 function fillVars(githubJson: any, str: string): string {
-  str = str.replace("$release_url", githubJson.release.html_url);
-  str = str.replace("$release_tag_name", githubJson.release.tag_name);
-  str = str.replace("$release_name", githubJson.release.name);
-  str = str.replace("$release_body", githubJson.release.body);
-  str = str.replace("$author_name", githubJson.release.author.login);
-  str = str.replace("$author_profile_url", githubJson.release.author.html_url);
-  str = str.replace("$author_avatar_url", githubJson.release.author.avatar_url);
-  str = str.replace("$repo_name", githubJson.repository.name);
-  str = str.replace("$repo_full_name", githubJson.repository.full_name);
-  str = str.replace("$repo_url", githubJson.repository.html_url);
+  for (const replacement of vars) {
+    str = str.replace(replacement.name, replacement.value(githubJson));
+  }
+
   return str;
 }
 
@@ -114,17 +142,23 @@ app.use(async (ctx) => {
         : undefined;
 
       embed.url = embed.url ? fillVars(json, embed.url) : undefined;
+
+      const releaseNotes = (json.release.body as string).split(config.fieldOn);
+
+      for (const section of releaseNotes) {
+        const title = section.split("\n")[0];
+        const description = section.split("\n").slice(1).join("\n");
+        embed.fields?.push({ name: title, value: description });
+      }
     });
 
-    const res = await post(
+    await post(
       config.discord_webhook_url,
       webhookContent,
       true,
       true,
       "[...]",
     );
-    console.log(res.status);
-    console.log(res.message);
   }
 
   ctx.response.status = 200;
