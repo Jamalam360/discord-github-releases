@@ -152,6 +152,7 @@ app.use(async (ctx) => {
       }
     });
 
+    console.log(JSON.stringify(webhookContent));
     console.log(config.discord_webhook_url);
 
     const res = await post(
