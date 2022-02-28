@@ -2,6 +2,10 @@ Allows you to send custom Discord messages when a new release is published on
 GitHub. The content of the messages can be much more compelx than the default
 embeds.
 
+It is currently very geared towards
+[Pinguino](https://github.com/JamCoreDiscord/Pinguino), but I hope to make it
+more generally useful in the future.
+
 For example, this is the message sent using the default configuration:
 
 ![example](example.png)
