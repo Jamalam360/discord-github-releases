@@ -146,8 +146,8 @@ app.use(async (ctx) => {
       const releaseNotes = (json.release.body as string).split(config.fieldOn);
 
       for (const section of releaseNotes) {
-        const title = section.split("\n\r")[0];
-        const description = section.split("\n\r").slice(1).join("\n\r");
+        const title = section.split("\r\n")[0];
+        const description = section.split("\r\n").slice(1).join("\r\n");
         embed.fields?.push({ name: title, value: description });
       }
     });
