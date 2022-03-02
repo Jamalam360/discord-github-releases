@@ -148,7 +148,10 @@ app.use(async (ctx) => {
       for (const section of releaseNotes) {
         const title = section.split("\r\n")[0];
         const description = section.split("\r\n").slice(2).join("\r\n");
-        embed.fields?.push({ name: title, value: description });
+
+        if (title.trim().length != 0 && description.trim().length != 0) {
+          embed.fields?.push({ name: title, value: description });
+        }
       }
     });
 
