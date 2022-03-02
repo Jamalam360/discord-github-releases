@@ -4,7 +4,7 @@ import { exists } from "https://deno.land/std@0.125.0/fs/mod.ts";
 import {
   post,
   WebhookMessage,
-} from "https://deno.land/x/dishooks@v1.0.4/mod.ts";
+} from "https://deno.land/x/dishooks@v1.0.5/mod.ts";
 import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
 
 const vars = [
