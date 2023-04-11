@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { exists } from "https://deno.land/std@0.125.0/fs/mod.ts";
+import { exists } from "https://deno.land/std@0.182.0/fs/mod.ts";
 import {
   post,
   WebhookMessage,
-} from "https://deno.land/x/dishooks@v1.0.5/mod.ts";
-import { Application } from "https://deno.land/x/oak@v10.1.0/mod.ts";
+} from "https://deno.land/x/dishooks@v1.1.0/mod.ts";
+import { Application } from "https://deno.land/x/oak@v12.1.0/mod.ts";
 
 const vars = [
   {
@@ -51,7 +51,7 @@ const vars = [
 ];
 
 interface Config {
-  discord_webhook_url: string;
+  discord_webhook_urls: string[];
   port: number;
   fieldOn: string;
   message: WebhookMessage;
@@ -63,8 +63,8 @@ async function readConfig(): Promise<Config> {
     const text = await Deno.readTextFile("config.json");
     const config: Config = JSON.parse(text);
 
-    if (!config.discord_webhook_url) {
-      throw new Error("No discord_webhook_url provided in config.json");
+    if (!config.discord_webhook_urls || config.discord_webhook_urls.length === 0) {
+      throw new Error("No discord_webhook_urls provided in config.json");
     }
 
     if (!config.port) {
@@ -155,13 +155,15 @@ app.use(async (ctx) => {
       }
     });
 
-    const res = await post(
-      config.discord_webhook_url,
-      webhookContent,
-      true,
-      true,
-      "[...]",
-    );
+    for (const url of config.discord_webhook_urls) {
+      await post(
+        url,
+        webhookContent,
+        true,
+        true,
+        "[...]",
+      );
+    }
   }
 
   ctx.response.status = 200;

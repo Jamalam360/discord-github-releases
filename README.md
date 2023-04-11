@@ -1,10 +1,6 @@
 Allows you to send custom Discord messages when a new release is published on
-GitHub. The content of the messages can be much more compelx than the default
+GitHub. The content of the messages can be much more complex than the default
 embeds.
-
-It is currently very geared towards
-[Pinguino](https://github.com/JamCoreDiscord/Pinguino), but I hope to make it
-more generally useful in the future.
 
 For example, this is the message sent using the default configuration:
 
@@ -16,16 +12,16 @@ First, follow the guide below to configure the program. Then make sure it is
 running on your machine (I use my VPS so that it is always online). Make sure
 that the port you chose can be accessed by the GitHub webhook, if applicable.
 
-Next go to the GitHub repository or organistaion of choice and create a webhook
+Next go to the GitHub repository or organization of choice and create a webhook
 pointing to `http://your.ip.address.here:port/` (where `your.ip.address.here` is
 the IP address of your machine and `port` is the port you chose (default 8080)).
 Make sure the webhook is 'subscribed' to the `release` event.
 
-Then make your discord webhook and add it to the config file.
+Then make your discord webhook and add it to the config file. Multiple webhooks can be added.
 
 Then make sure the code is running using
 `deno run --allow-net --allow-read index.ts`. The program should now be working!
-You can find instructions on installig Deno [here](https://deno.land).
+You can find instructions on installing Deno [here](https://deno.land).
 
 ## Configuration
 
@@ -40,9 +36,9 @@ mv config.json.example config.json
 You must create a file named `config.json` in the same path as you are running
 the file. The structure is like so:
 
-- `discord_webhook_url`
-  - Description: The URL of the Discord webhook to send the message to
-  - Type: `string`
+- `discord_webhook_urls`
+  - Description: The URLs of the Discord webhooks to send the message to
+  - Type: `string[]`
   - Required: `Yes`
   - Default: `N/A`
 - `port`
@@ -109,7 +105,7 @@ the file. The structure is like so:
   - Description: The color of the embed
   - Type: `integer`
   - Required: `No`
-  - Default: `None` (Discord defaults to no colour)
+  - Default: `None` (Discord defaults to no color)
 - `footer`
   - Description: The footer of the embed
   - Type: `Footer` (see below)

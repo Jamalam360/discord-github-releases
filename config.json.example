@@ -1,5 +1,5 @@
 {
-  "discord_webhook_url": "FILL_THIS_IN_YOURSELF",
+  "discord_webhook_urls": ["FILL_THIS_IN_YOURSELF"],
   "port": 8081,
   "message": {
     "content": "$author_name has just released a release of $repo_name",
