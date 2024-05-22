@@ -57,14 +57,17 @@ interface Config {
   message: WebhookMessage;
 }
 
+const DEFAULT_CONFIG_PATH = "config.json";
+const configPath = Deno.args[0] || DEFAULT_CONFIG_PATH;
+
 //TODO: improve config parsing and checking
 async function readConfig(): Promise<Config> {
-  if (await exists("config.json")) {
-    const text = await Deno.readTextFile("config.json");
+  if (await exists(configPath)) {
+    const text = await Deno.readTextFile(configPath);
     const config: Config = JSON.parse(text);
 
     if (!config.discord_webhook_urls || config.discord_webhook_urls.length === 0) {
-      throw new Error("No discord_webhook_urls provided in config.json");
+      throw new Error(`No discord_webhook_urls provided in ${configPath}`);
     }
 
     if (!config.port) {
@@ -74,7 +77,7 @@ async function readConfig(): Promise<Config> {
 
     return config;
   } else {
-    throw new Error("No config.json found");
+    throw new Error("No config found at " + configPath);
   }
 }
 
