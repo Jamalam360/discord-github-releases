@@ -93,7 +93,17 @@ const config = await readConfig();
 const app = new Application();
 
 app.use(async (ctx) => {
+  if (ctx.request.method !== "POST") {
+    ctx.response.status = 405;
+    return;
+  }
+
   const json = await ctx.request.body().value;
+
+  if (!json.action) {
+    ctx.response.status = 400;
+    return;
+  }
 
   if (await json.action == "published") {
     const webhookContent: WebhookMessage = JSON.parse(
